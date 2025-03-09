@@ -22,11 +22,11 @@ export const signup = async (req, res) =>{
     if(!name || !email || !password){
       throw new Error("All fields are required");
     }
-
+   
     const userAllreadyExists = await User.findOne({email});
 
     if(userAllreadyExists){
-      return res.status(400).json({success : false, message : "User allready e xists"});
+      return res.status(400).json({success : false, message : "User allready exist"});
 
     }
 
@@ -47,7 +47,7 @@ export const signup = async (req, res) =>{
     });
 
     if(user){
-        // jwt
+      // jwt
      generateTokenAndSetCookie(res, user._id);
 
     //  sendVerificationEmail(user.email, verificationToken);
@@ -273,7 +273,7 @@ export const signup = async (req, res) =>{
           ...user._doc,
           password : undefined
         }});
-
+ 
       } catch (error) {
          console.log("Error in checkAuth", error);
          res.status(400).json({success : false, message : error.message})
@@ -283,7 +283,7 @@ export const signup = async (req, res) =>{
 
     }
 
-
+ 
   /*
     @desc logout
     @method POST
