@@ -10,15 +10,20 @@ import {
     @method POST
     @route /api/auth/signup
     @access public
-  */
+  */ 
 export const signup = async (req, res) =>{
   
   const {name, email, password} = req.body;
 
-  const otp = createOTP();
+    // verify
+    if(!email || !pasappsword || !name){
+      return res.status(404).json({success : false, message : "All fields are requird"})
+    }
 
+  const otp = createOTP();
+ 
   try {
-    
+     
     if(!name || !email || !password){
       throw new Error("All fields are required");
     }
@@ -138,6 +143,11 @@ export const signup = async (req, res) =>{
       
       const {email, password } = req.body;
 
+      // verify
+      if(!email || !password){
+        return res.status(404).json({success : false, message : "All fields are requird"})
+      }
+
       const user = await User.findOne({email});
       if(!user){
         return res.status(404).json({success : true, message : "Invalid credentials"});
@@ -177,6 +187,10 @@ export const signup = async (req, res) =>{
 
       const {email} = req.body;
 
+       if(!email){
+        return res.status(401).json({success : false, message : "Enter your email"})
+       }
+
      try {
       
        const user = await User.findOne({email});
@@ -184,7 +198,7 @@ export const signup = async (req, res) =>{
        if(!user){
         return res.status(404).json({success : false, message : "User not found"});
        }
-
+  
         // generate reset token
         const resetToken = crypto.randomBytes(20).toString("hex");
         const resetTokenExpiresAt = Date.now() + 24 + 60 * 60 * 1000; // 25 hours
@@ -258,7 +272,7 @@ export const signup = async (req, res) =>{
     @route /api/auth/checkAuth
     @access public
   */
-    
+      
     export const checkAuth = async (req, res) =>{
     
       try {
@@ -283,7 +297,7 @@ export const signup = async (req, res) =>{
 
     }
 
- 
+       
   /*
     @desc logout
     @method POST

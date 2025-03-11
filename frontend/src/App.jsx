@@ -8,7 +8,9 @@ import { Toaster } from './../node_modules/react-hot-toast/src/components/toaste
 import { useAuthStore } from './Store/authStore';
 import DashboardPage from './Pages/DashboardPage';
 import LoadingSpinner from './Components/LoadingSpinner';
-
+import ForgotPasswordPage from './Pages/ForgotPasswordPage';
+import ResetPasswordPage from './Pages/ResetPasswordPage';
+       
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
 	const { isAuthenticated, user } = useAuthStore();
@@ -20,7 +22,7 @@ const ProtectedRoute = ({ children }) => {
 	if (!user.isVerified) {
 		return <Navigate to='/verify-email' replace />;
 	}
-
+  
 	return children;
 };
 
@@ -69,8 +71,23 @@ function App() {
          </RedirectAuthenticatedUser>}/>
 
          <Route path='/verify-email' element={<EmailVerificationPage/>}/>
-      </Routes>
-              <Toaster/>
+
+         <Route path='/forgot-password' element={
+            <RedirectAuthenticatedUser>
+               <ForgotPasswordPage/>
+            </RedirectAuthenticatedUser>
+         }/>
+
+          <Route path='/reset-password/:token'
+          element={
+            <RedirectAuthenticatedUser>
+                 <ResetPasswordPage/>
+            </RedirectAuthenticatedUser>
+          }
+          />
+
+       </Routes>
+        <Toaster/>
 
     </div>
    
