@@ -19,8 +19,8 @@ const ResetPasswordPage = () => {
       e.preventDefault();
 
       if(password !== confirmPassword){
-        alert("Password do not match");
-        return
+       alert("Password did't match")
+       return
       }
   
       try {
@@ -55,7 +55,7 @@ const ResetPasswordPage = () => {
             </div>
 
             {error && <p className='text-red-500 text-sm mb-4'>{error}</p>}
-            {message && <p className='text-green-500 text-sm mb-4'>{error}</p>}
+            {message && <p className='text-green-500 text-sm mb-4'>{message}</p>}
 
             <form onSubmit={handleSubmit}>
                <Input
@@ -73,7 +73,7 @@ const ResetPasswordPage = () => {
                value={confirmPassword}
                onChange={(e) => setConfirmPassword(e.target.value)}
                required/>
-
+ 
               <motion.button
               whileHover={{scale : 1.05}}
               whileTap={{scale : 0.98}}

@@ -60,7 +60,7 @@ const ForgotPasswordPage = () => {
                   transition={{type : "spring", stiffness : 500, damping : 30}}
                   className='w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-4'>
                     
-                    <Mail className='h-8 w-8 text-white'/>
+                    <Mail className='bg-green-500'/>
                   </motion.div>
                   <p className='text-gray-300 mb-6'>
                     If and account exists for {email}, you will receive an email with a link to reset your link shortly

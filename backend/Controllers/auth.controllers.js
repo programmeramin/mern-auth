@@ -16,7 +16,7 @@ export const signup = async (req, res) =>{
   const {name, email, password} = req.body;
 
     // verify
-    if(!email || !pasappsword || !name){
+    if(!email || !password || !name){
       return res.status(404).json({success : false, message : "All fields are requird"})
     }
 
@@ -150,14 +150,14 @@ export const signup = async (req, res) =>{
 
       const user = await User.findOne({email});
       if(!user){
-        return res.status(404).json({success : true, message : "Invalid credentials"});
+        return res.status(404).json({success : true, message : "User not found"});
 
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if(!isPasswordValid){
-        return res.status(404).json({success : false, message : "Invalid credentials"});
+        return res.status(404).json({success : false, message : "Wrong password"});
       }
 
       generateTokenAndSetCookie(res, user._id);
@@ -182,43 +182,33 @@ export const signup = async (req, res) =>{
   //   @route /api/auth/forgot-password
   //   @access public
   // */
-
-    export const forgotPassword = async (req, res) =>{
-
-      const {email} = req.body;
-
-       if(!email){
-        return res.status(401).json({success : false, message : "Enter your email"})
-       }
-
-     try {
-      
-       const user = await User.findOne({email});
-
-       if(!user){
-        return res.status(404).json({success : false, message : "User not found"});
-       }
+  export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    try {
+      const user = await User.findOne({ email });
   
-        // generate reset token
-        const resetToken = crypto.randomBytes(20).toString("hex");
-        const resetTokenExpiresAt = Date.now() + 24 + 60 * 60 * 1000; // 25 hours
-
-        user.resetPasswordToken = resetToken;
-        user.resetPasswordExpiresAt = resetTokenExpiresAt;
-
-        await user.save();
-
+      if (!user) {
+        return res.status(400).json({ success: false, message: "User not found" });
+      }
+  
+      // Generate reset token
+      const resetToken = crypto.randomBytes(20).toString("hex");
+      const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
+  
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordExpiresAt = resetTokenExpiresAt;
+  
+      await user.save();
+  
       // send email
       await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
-
-      res.status(200).json({success : true, message : "Password reset link sent to your email"});
-
-     } catch (error) {
-       console.log('Error in forgotPassword', error);
-       res.status(400).json({success : false, message : error.messsage});
-     }
-
+  
+      res.status(200).json({ success: true, message: "Password reset link sent to your email" });
+    } catch (error) {
+      console.log("Error in forgotPassword ", error);
+      res.status(400).json({ success: false, message: error.message });
     }
+  };
 
 
         // /*
@@ -265,7 +255,7 @@ export const signup = async (req, res) =>{
     }
   
   }
-
+  
   /*
     @desc checkAuth
     @method POST
