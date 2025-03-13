@@ -4,9 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "server": "nodemon backend/index.js",
-    "dev": "npm run dev --prefix frontend",
-    "start": "concurrently \"npm run server\" \"npm run dev\""
+    "dev": "set NODE_ENV=development&& nodemon backend/index.js",
+     "start": "set NODE_ENV=production&& node backend/index.js",
+    "build" : "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+
+
+
   },
   "keywords": [],
   "author": "",

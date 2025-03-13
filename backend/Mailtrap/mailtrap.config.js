@@ -60,21 +60,21 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
     auth: {
       user: "becomeahaq@gmail.com",
       pass: "nnhj lcly puzj hlxv",
-    },
-  });
+    }
+  })
 
-  await transport.sendMail({
+    await transport.sendMail({
     from: "Reset Your Password <becomeahaq@gmail.com>",
     subject: "Reset Your Password",
     to: email, 
-    html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL", resetURL),
+    html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
     category : "Password Reset",
   });
 };
 
 
 // PASSWORD RESET SUCCESS
-export const sendResetSuccessEmail = async (email, data) =>{
+export const sendResetSuccessEmail = async (email) =>{
 
   const transport = nodemailer.createTransport({
     host: "smtp.gmail.com",

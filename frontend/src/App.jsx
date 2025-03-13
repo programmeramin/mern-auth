@@ -10,7 +10,7 @@ import DashboardPage from './Pages/DashboardPage';
 import LoadingSpinner from './Components/LoadingSpinner';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
-       
+
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
 	const { isAuthenticated, user } = useAuthStore();
@@ -85,6 +85,10 @@ function App() {
             </RedirectAuthenticatedUser>
           }
           />
+
+              {/** catch all route */}
+          <Route path='*'
+          element={<Navigate to="/" replace/>}/>
 
        </Routes>
         <Toaster/>
