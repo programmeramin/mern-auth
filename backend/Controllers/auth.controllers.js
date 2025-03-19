@@ -185,7 +185,7 @@ export const signup = async (req, res) =>{
   export const forgotPassword = async (req, res) => {
 
     const { email } = req.body;
-
+  
     try {
       const user = await User.findOne({ email });
   
@@ -204,15 +204,15 @@ export const signup = async (req, res) =>{
 
       // send email
       await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
-  
+     
       res.status(200).json({ success: true, message: "Password reset link sent to your email" });
 
     } catch (error) {
       console.log("Error in forgotPassword ", error);
       res.status(400).json({ success: false, message: error.message });
     }
-  };
-
+  };     
+  
 
         // /*
   //   @desc reset password
@@ -236,7 +236,7 @@ export const signup = async (req, res) =>{
       if(!user){
         return res.status(400).json({success : false, message : "Invalid or expired reset token"})
       }
-  
+   
       // update password
       const hassPass = await bcrypt.hash(password, 10);
   
@@ -302,4 +302,4 @@ export const logout = async (req, res) =>{
   res.clearCookie("token");
   res.status(200).json({success : true, message : "Logout successfully"});
   
-}      
+}        
